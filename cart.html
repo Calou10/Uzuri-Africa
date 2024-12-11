@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - Uzuri Africa</title>
+  <link rel="stylesheet" href="cart_style.css">
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Your Cart</h1>
+      <p>Review the items in your cart and make adjustments if needed.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <table id="cart-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="cart-items">
+          <!-- Cart items will be dynamically inserted here -->
+        </tbody>
+      </table>
+
+      <div id="cart-total">
+        <p>Total Price: <span id="total-price">€0.00</span></p>
+        <button id="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Uzuri Africa. <a href="#">Contact Us</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Example cart data (this would normally come from the server)
+    const cartItems = [
+      { id: 1, name: 'Item 1', price: 100, quantity: 2 },
+      { id: 2, name: 'Item 2', price: 50, quantity: 1 },
+      { id: 3, name: 'Item 3', price: 200, quantity: 1 },
+    ];
+
+    // Function to render cart items
+    function renderCartItems() {
+      const cartItemsContainer = document.getElementById("cart-items");
+      cartItemsContainer.innerHTML = ""; // Clear existing items
+
+      cartItems.forEach(item => {
+        const row = document.createElement("tr");
+        row.id = `cart-item-${item.id}`;
+        
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>€${item.price.toFixed(2)}</td>
+          <td>
+            <input type="number" class="quantity" data-item-id="${item.id}" value="${item.quantity}" min="1">
+          </td>
+          <td class="total-price">€${(item.price * item.quantity).toFixed(2)}</td>
+          <td><button class="remove-item" data-item-id="${item.id}">Remove</button></td>
+        `;
+        
+        cartItemsContainer.appendChild(row);
+      });
+
+      // Update total price
+      updateTotalPrice();
+    }
+
+    // Function to update total price
+    function updateTotalPrice() {
+      let totalPrice = 0;
+      const rows = document.querySelectorAll("#cart-table tbody tr");
+      
+      rows.forEach(row => {
+        const quantity = row.querySelector(".quantity").value;
+        const price = parseFloat(row.querySelector(".total-price").textContent.replace("€", ""));
+        totalPrice += quantity * price;
+      });
+
+      document.getElementById("total-price").textContent = `€${totalPrice.toFixed(2)}`;
+    }
+
+    // Event listener for quantity change
+    document.addEventListener("change", function(event) {
+      if (event.target.classList.contains("quantity")) {
+        const itemId = event.target.getAttribute("data-item-id");
+        const quantity = event.target.value;
+
+        // Update the quantity in the cartItems array
+        const item = cartItems.find(item => item.id == itemId);
+        if (item) {
+          item.quantity = quantity;
+          updateItemTotal(itemId);
+        }
+
+        // Update total price
+        updateTotalPrice();
+      }
+    });
+
+    // Update the total price for an individual item
+    function updateItemTotal(itemId) {
+      const row = document.getElementById(`cart-item-${itemId}`);
+      const item = cartItems.find(item => item.id == itemId);
+      if (row && item) {
+        const totalPriceCell = row.querySelector(".total-price");
+        totalPriceCell.textContent = `€${(item.price * item.quantity).toFixed(2)}`;
+      }
+    }
+
+    // Event listener for item removal
+    document.addEventListener("click", function(event) {
+      if (event.target.classList.contains("remove-item")) {
+        const itemId = event.target.getAttribute("data-item-id");
+
+        // Remove item from cartItems array
+        const itemIndex = cartItems.findIndex(item => item.id == itemId);
+        if (itemIndex !== -1) {
+          cartItems.splice(itemIndex, 1);
+          const row = document.getElementById(`cart-item-${itemId}`);
+          if (row) {
+            row.remove();
+          }
+
+          // Update total price
+          updateTotalPrice();
+        }
+      }
+    });
+
+    // Proceed to checkout (mock functionality)
+    document.getElementById("checkout-btn").addEventListener("click", function() {
+      alert("Proceeding to checkout...");
+    });
+
+    // Initial render of cart items
+    renderCartItems();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container that centers content */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 18px;
+}
+
+header .logo img {
+            width: 100px;
+            float: left;
+            margin: auto;
+        }
+
+/* Account Form Styles */
+.account-form {
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.account-form h2 {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Inputs Styles */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fafafa;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Loading Indicator */
+#loading-indicator {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Make the form fields look better on mobile devices */
+@media (max-width: 768px) {
+  .account-form {
+    padding: 20px;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  button {
+    font-size: 16px;
+  }
+
+  button {
+    padding: 12px 0;
+  }
+
+  /* Adjust container width on mobile */
+  .container {
+    width: 100%;
+  }
+}
+
+/* Large screens and tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .account-form {
+    width: 70%;
+    padding: 30px;
+  }
+
+  button {
+    padding: 14px 0;
+  }
+}
+
+/* For Very Small Devices (Like Phones in Portrait Mode) */
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .account-form {
+    padding: 15px;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
