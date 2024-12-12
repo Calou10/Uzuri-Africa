@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse All - Uzuri Africa</title>
+    <link rel="stylesheet" href="browse.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Uzuri Africa</h1>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="browse.html">Browse All</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="cart.html">Cart</a>
+            <a href="register.html">Account</a>
+        </nav>
+    </header>
+    <main>
+        <div class="filters">
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="rare">Rare Items</option>
+                <option value="high-end">High-End</option>
+                <option value="regular">Regular Items</option>
+            </select>
+            <select id="typeFilter">
+                <option value="all">All Purchase Types</option>
+                <option value="buy-now">Buy It Now</option>
+                <option value="negotiation">Negotiation</option>
+                <option value="best-offer">Best Offer</option>
+            </select>
+            <select id="productFilter">
+                <option value="all">All Products</option>
+                <option value="food">Food</option>
+                <option value="clothings">Clothings</option>
+                <option value="artifacts">Artifacts</option>
+            </select>
+
+            <button id="filterButton">Filter</button>
+        </div>
+        <div class="items-grid" id="itemsGrid">
+            <!-- Items will be dynamically loaded here -->
+        </div>
+    </main>
+    <footer class="footer">
+        &copy; 2024 Uzuri Africa. All rights reserved.
+    </footer>
+    <script src="browse.js"></script>
+</body>
+</html>
