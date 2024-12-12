@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uzuri Africa - Purchase Page</title>
+  <link rel="stylesheet" href="purchase_style.css">
+</head>
+<body>
+  <header>
+    <h1>Purchase Options at Uzuri Africa</h1>
+    <p>Choose the method that works best for you!</p>
+  </header>
+  <main>
+    <!-- Best Offer Section -->
+    <section class="purchase-option">
+      <h2>Best Offer</h2>
+      <p>Bid on items and let us handle the bidding for you!</p>
+      <div class="timer">Time Left: <span id="best-offer-timer"></span></div>
+      <input type="number" id="bid-amount" placeholder="Enter your max bid (€)">
+      <button id="place-bid">Place Bid</button>
+    </section>
+
+    <!-- Seller-Customer Transaction Section -->
+    <section class="purchase-option">
+      <h2>Seller-Customer Transaction</h2>
+      <p>Negotiate directly with the seller for the best price.</p>
+      <textarea id="offer" placeholder="Enter your offer (€)" rows="3"></textarea>
+      <button id="send-offer">Send Offer</button>
+      <div class="message-box"></div>
+
+      <!-- Hidden buttons for accepting/rejecting counteroffer -->
+      <div id="accept-reject-buttons" style="display: none;">
+        <button id="accept-counteroffer">Accept Counteroffer</button>
+        <button id="reject-counteroffer">Reject Counteroffer</button>
+      </div>
+
+      <!-- Hidden payment button -->
+       <button id="add-to-cart" style="display: none;">Add to Cart</button>
+    </section>
+
+    <!-- Buy It Now Section -->
+    <section class="purchase-option">
+      <h2>Buy It Now</h2>
+      <p>Purchase instantly at the listed price!</p>
+      <div class="price">Price: €450</div>
+      <button class="buy-now">Buy Now</button>
+    </section>
+  </main>
+  <footer>
+    <p>© 2024 Uzuri Africa. <a href="#">Contact Us</a></p>
+  </footer>
+</body>
+</html>
+
+
+
+<script>
+
+//TIMER GENERATION
+
+function startCountdown(deadline, elementId) {
+  const timerElement = document.getElementById(elementId);
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const timeLeft = new Date(deadline).getTime() - now;
+
+    if (timeLeft < 0) {
+      timerElement.textContent = "Auction ended";
+      clearInterval(interval);
+      return;
+    }
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  const interval = setInterval(updateTimer, 1000);
+  updateTimer();
+}
+
+// Initialize the timer
+document.addEventListener("DOMContentLoaded", () => {
+  startCountdown("2024-12-15T16:59:00", "best-offer-timer");
+});
+
+
+//INPUT VALIDATION
+document.querySelector("button#place-bid").addEventListener("click", () => {
+  const bid = document.querySelector("input#bid-amount").value;
+
+  if (isNaN(bid) || bid <= 0) {
+    alert("Please enter a valid bid amount!");
+  } else {
+    alert(`Your bid of €${bid} has been placed.`);
+  }
+});
+
+
+//PLACING BID
+
+document.querySelector("button#place-bid").addEventListener("click", () => {
+  const bidAmount = document.querySelector("input#bid-amount").value;
+  const buyerId = 1;  // Replace with the actual buyer ID
+  const productId = 123;  // Replace with the actual product ID
+
+  // Validate input
+  if (isNaN(bidAmount) || bidAmount <= 0) {
+    alert("Please enter a valid bid amount!");
+    return;
+  }
+
+  // Send the bid to the PHP backend
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "placebid.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      // Handle the response from the PHP backend
+      alert(xhr.responseText);  // Display success or error message from PHP
+    }
+  };
+
+  // Send the POST request with the necessary data
+  xhr.send(`buyer_id=${buyerId}&product_id=${productId}&bid_amount=${bidAmount}`);
+});
+
+
+//REAL TIME SELLER-BUYER NEGOTIATION
+
+let originalOffer = 0;
+
+document.querySelector("button#send-offer").addEventListener("click", () => {
+  const offerInput = document.querySelector("textarea").value;
+  const messageBox = document.querySelector(".message-box");
+  let offerValue = parseFloat(offerInput);
+
+  // Validate input
+  if (isNaN(offerValue) || offerValue <= 0) {
+    alert("Please enter a valid offer.");
+    return;
+  }
+
+  // Set the original offer only once
+  if (originalOffer === 0) {
+    originalOffer = offerValue;
+  }
+
+  const percentIncrease = 0.1;
+  let counteroffer = offerValue + (offerValue * percentIncrease);
+
+  messageBox.innerHTML = `<p>Your Offer: €${offerValue.toFixed(2)}</p>`;
+
+  // Send the offer to PHP using AJAX
+  const buyerId = 1; // Replace with actual buyer ID
+  const sellerId = 2; // Replace with actual seller ID
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "offersave.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      console.log(xhr.responseText); // Handle response if needed
+    }
+  };
+  xhr.send(`buyer_id=${buyerId}&seller_id=${sellerId}&original_offer=${offerValue}&counter_offer=${counteroffer}`);
+
+  // Check if the counteroffer meets the seller's acceptance threshold
+  const sellerAcceptanceThreshold = 1.2 * originalOffer; // 20% above the original offer
+
+  if (offerValue >= sellerAcceptanceThreshold) {
+    messageBox.innerHTML += `<p>Seller accepts your offer: €${offerValue.toFixed(2)}.</p>`;
+    showAddToCart(offerValue);
+  } else {
+    messageBox.innerHTML += `<p>Seller Counteroffer: €${counteroffer.toFixed(2)}</p>`;
+    messageBox.innerHTML += `<p>Seller did not accept your offer. Accept counteroffer or make a new offer.</p>`;
+
+    document.getElementById("accept-reject-buttons").style.display = "block";
+
+    //accepting the counteroffer
+
+    document.getElementById("accept-counteroffer").addEventListener('click', () => {
+      messageBox.innerHTML += `<p>You have accepted the seller's counteroffer: €${counteroffer.toFixed(2)}.</p>`;
+      document.getElementById("accept-reject-buttons").style.display = "none"; // Hide Accept/Reject buttons
+      showAddToCart(counteroffer);
+
+
+      // Update offer status to 'accepted'
+      const xhr2 = new XMLHttpRequest();
+      xhr2.open("POST", "update_offer_status.php", true);
+      xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr2.send(`offer_id=${offerId}&status=accepted`);
+    });
+    
+
+    //handle the reject button
+    document.getElementById("reject-counteroffer").addEventListener('click', () => {
+      messageBox.innerHTML += `<p>You rejected the seller's counteroffer. You can make a new offer.</p>`;
+      document.querySelector("textarea").value = '';
+      document.getElementById("accept-reject-buttons").style.display = "none"; // Hide the buttons after rejection
+
+      // Update offer status to 'rejected'
+      const xhr2 = new XMLHttpRequest();
+      xhr2.open("POST", "update_offer_status.php", true);
+      xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr2.send(`offer_id=${offerId}&status=rejected`);
+    });
+  }
+
+  document.querySelector("textarea").value = '';  // Clear input for new offer
+});
+
+
+// Function to handle adding to cart
+function showAddToCart(agreedPrice) {
+  const messageBox = document.querySelector(".message-box");
+
+  // Show the "Add to Cart" button
+  const addToCartButton = document.getElementById("add-to-cart");
+  addToCartButton.style.display = "block";
+
+  // Attach event listener to the "Add to Cart" button
+  addToCartButton.onclick = () => {
+    // Simulate adding the agreed price to the cart
+    messageBox.innerHTML += `<p>Adding item to cart at the agreed price of €${agreedPrice.toFixed(2)}...</p>`;
+
+    // Simulate a delay for cart update
+    setTimeout(() => {
+      messageBox.innerHTML += `<p>Item successfully added to your cart!</p>`;
+    }, 2000);
+
+    // Hide the button after adding to the cart
+    addToCartButton.style.display = "none";
+  };
+}
+
+
+// Buy Now section
+
+document.querySelector("button.buy-now").addEventListener("click", () => {
+  const messageBox = document.querySelector(".message-box");
+
+  // Assuming you have an item ID and price
+  const itemId = 1;  // Replace with the actual item ID
+  const price = 450;  // Price for the item
+  const quantity = 1;  // Quantity (default is 1)
+
+  // Send AJAX request to add the item to the cart
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "addtocart.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      const response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        messageBox.innerHTML += `<p>Item has been added to your cart at €${price}!</p>`;
+      } else {
+        messageBox.innerHTML += `<p>Failed to add item to cart: ${response.message}</p>`;
+      }
+    }
+  };
+  xhr.send(`item_id=${itemId}&price=${price}&quantity=${quantity}`);
+});
+
+
+</script>

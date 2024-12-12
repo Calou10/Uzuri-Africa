@@ -1,0 +1,241 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #EDE6CF; /* Beige background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Header Styling */
+header {
+    background-color: #f52a23; /* Red header */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo img {
+    height: 50px;
+    margin-right: 15px;
+}
+
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content Styling */
+#section1 {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Filters Section Styling */
+.filters {
+    margin-bottom: 20px;
+    background-color: #068b50; /* Green filters background */
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.filters select,
+.filters button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+#item_dets {
+  width: 1060px;
+  margin-left: 20px;
+}
+
+#den{
+  font-size: 1.5em;
+  color:#068b50 ;
+}
+/* Main Section */
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  float: right;
+  margin-top: 0px;
+  width: 800px;
+  height: 650px;
+  margin-right: 20px;
+}
+
+.purchase-option {
+  background: #ccc;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-option h2 {
+  font-size: 1.5em;
+  color: #0056b3;
+  margin-bottom: 10px;
+}
+
+.purchase-option p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.purchase-option .timer {
+  font-size: 0.9em;
+  color: #ff4500;
+  margin-bottom: 10px;
+}
+
+.purchase-option input,
+.purchase-option textarea {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.purchase-option button {
+  background: #0056b3;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.purchase-option button:hover {
+  background: #003f8a;
+}
+
+.purchase-option .buy-now {
+  background: #28a745;
+}
+
+.purchase-option .buy-now:hover {
+  background: #218838;
+}
+
+.purchase-option .price {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.message-box {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #068b50;
+}
+
+footer a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  .purchase-option input,
+  .purchase-option textarea {
+  
+  }
+
+  .purchase-option {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 1.8em;
+  }
+
+  header p {
+    font-size: 1em;
+  }
+
+  table {
+    flex-direction: column;
+  }
+
+  #item_dets {
+  flex-direction: column;
+ 
+}
+
+#den{
+  flex-direction: column;
+}
+
+
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  header p {
+    font-size: 0.9em;
+  }
+
+  .purchase-option button {
+    font-size: 0.9em;
+    padding: 8px 15px;
+  }
+
+  .purchase-option {
+    padding: 10px;
+  }
+
+  footer {
+    font-size: 0.8em;
+  }
+}
+
+
