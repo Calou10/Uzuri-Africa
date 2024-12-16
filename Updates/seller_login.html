@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Login - Uzuri Africa</title>
+    <style>
+        /* Add your previous CSS here */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EDE6CF;
+            color: #333;
+        }
+        header {
+            position: sticky;
+            top: 0;
+            background-color: #068b50;
+            color: white;
+            padding: 15px 30px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo img {
+            width: 100px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f52a23;
+        }
+        /* Form Styling */
+        .form-container {
+            max-width: 600px;
+            margin: 166px auto;
+            margin-bottom: 350px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container input {
+            width: 95%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            background-color: #068b50;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #f52a23;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #068b50;
+            color: white;
+            padding: 20px;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+       footer a {
+            color: #f52a23;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            
+
+            footer {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            
+            footer {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="images/UZURI AFRICA2.jpg" alt="Uzuri Africa Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse All</a></li>
+                <li><a href="seller_login.html">Login</a></li>
+                <li><a href="seller_reg.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Form -->
+    <div class="form-container">
+        <h2>Seller Login</h2>
+        <form action="seller_login.php" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+     <footer>
+        <p>&copy; 2024 Uzuri Africa. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
